@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <!-- Always force latest IE rendering engine or request Chrome Frame -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Blue One Page HTML Template</title>
+    <title>Olya Voodoo Twitch Streamer</title>
     <!-- Meta Description -->
     <meta name="description" content="Blue One Page Creative HTML5 Template">
     <meta name="keywords" content="one page, single page, onepage, responsive, parallax, creative, business, html5, css3, css3 animation">
@@ -62,6 +62,7 @@
         function clipsLoaded() {
             var clipsDisplay = document.getElementById('clips-display'),
                 clipList = JSON.parse(httpRequest.responseText);
+            console.log(clipList);
             localStorage.getItem("dataCache", JSON.stringify());
             var videos = clipList.videos;
 
@@ -79,85 +80,109 @@
 
                 var concat_images = images_split[0] + "1366x768.jpg";
                 topvideos.push(concat_images);
+                console.log(topvideos);
             }
-            for(i=0;i<=2;i++){
-        console.log("bg-img-" + (i + 1))
-         var square = document.getElementsByClassName("bg-img-" + (i + 1))
-            square[0].style.backgroundImage = "url(" + topvideos[i] + ")";
+            for (i = 0; i <= 2; i++) {
+                console.log("bg-img-" + (i + 1))
+                var square = document.getElementsByClassName("bg-img-" + (i + 1))
+                square[0].style.backgroundImage = "url(" + topvideos[i + 1] + ")";
             }
-            
-            }
- </script>
- 
- 
- <script>
+
+        }
+
+    </script>
 
 
-  (function poll() {
-    setTimeout(function() {
-        $.ajax({
-           url: 'https://api.twitch.tv/kraken/channels/100649748/',
-    headers: {
-        'Client-ID':'g3ov677efxsj9verwwmvhffu96wm0e',
-        'Accept':'application/vnd.twitchtv.v5+json'
-        
-    },
-    method: 'GET',
-    dataType: 'json',
-            success: function(data) {
-                console.log("polling");
-				 console.log('succes: '+data.followers);
-  var element = document.getElementById("totalvalue");
-element.innerText = data.followers;
+    <script>
+        (function poll() {
+            setTimeout(function() {
+                $.ajax({
+                    url: 'https://api.twitch.tv/kraken/channels/100649748/',
+                    headers: {
+                        'Client-ID': 'g3ov677efxsj9verwwmvhffu96wm0e',
+                        'Accept': 'application/vnd.twitchtv.v5+json'
 
-         var element = document.getElementById("totalviews");
-element.innerText = data.views;
-            },
-            dataType: "json",
-            complete: poll,
-			
-			timeout: 1000
-        })
-    }, 3000);
-})();
+                    },
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log("polling");
+                        console.log('succes: ' + data.followers);
+                        var element = document.getElementById("totalvalue");
+                        element.innerText = data.followers;
 
-		  
-        </script>
-        
-        <script>
+                        var element = document.getElementById("totalviews");
+                        element.innerText = data.views;
+                    },
+                    dataType: "json",
+                    complete: poll,
+
+                    timeout: 1000
+                })
+            }, 3000);
+        })();
+
+    </script>
+
+    <script>
+        var ajaxResult = [];
+        (function poll() {
+            setTimeout(function() {
+                $.ajax({
+                    url: 'https://api.twitch.tv/kraken/streams/igromania?client_id=g3ov677efxsj9verwwmvhffu96wm0e',
+
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+
+                        var element = document.getElementById("totalviewersnow");
+                        if (data.stream === null) {
+                            element.innerText = "Stream is Offline";
+                            $("#totalviewersnow").css("color", "black");
+                        } else {
+
+                            if (ajaxResult.length == 0) {
+                                ajaxResult.push(data.stream.viewers);
+                                $("#totalviewersnow").html(data.stream.viewers);
+                            } else if (ajaxResult.length != null && ajaxResult[0] == data.stream.viewers) {
+
+                                ajaxResult = [];
+                                ajaxResult.push(data.stream.viewers);
+
+                                $("#totalviewersnow").css("color", "black");
+                            } else if (ajaxResult.length != null && ajaxResult[0] != data.stream.viewers) {
+
+                                if (ajaxResult[0] > data.stream.viewers) {
 
 
-  (function poll1() {
-    setTimeout(function() {
-        $.ajax({
-           url: 'https://api.twitch.tv/kraken/streams/olyavoodoo?client_id=g3ov677efxsj9verwwmvhffu96wm0e',
-  
-    method: 'GET',
-    dataType: 'json',
-            success: function(data) {
-                console.log("polling");
-				
-				  var element = document.getElementById("totalviewersnow");
-				 if(data.stream === null)
-				 {element.innerText = "Stream is Offline";}
-				else
-					{
-					console.log(data.stream);
-element.innerText = data.stream.viewers;}
+                                    $("#totalviewersnow").css("color", "red");
+
+                                } else {
+
+                                    $("#totalviewersnow").css("color", "green");
+                                }
+                                ajaxResult = [];
+                                ajaxResult.push(data.stream.viewers);
+
+                                $("#totalviewersnow").html(data.stream.viewers);
+
+
+                            }
+
+                        }
 
 
 
-            },
-            dataType: "json",
-            complete: poll1,
-			
-			timeout: 1000
-        })
-    }, 2000);
-})();
+                    },
+                    dataType: "json",
+                    complete: poll,
 
-		  
-        </script>
+                    timeout: 500
+                })
+            }, 500);
+        })();
+
+    </script>
 </head>
 
 <body id="body">
@@ -187,7 +212,7 @@ element.innerText = data.stream.viewers;}
 
                 <!-- logo -->
                 <h1 class="navbar-brand">
-                    <a href="#body">Blue</a>
+                    <a href="#body">Olya Voodoo</a>
                 </h1>
                 <!-- /logo -->
             </div>
@@ -228,9 +253,9 @@ element.innerText = data.stream.viewers;}
 
                         <div class="slide-caption">
                             <div class="caption-content">
-                                <h2 class="animated fadeInDown">BLUE Onepage HTML5 Template</h2>
-                                <span class="animated fadeInDown">Clean and Professional one page Template</span>
-                                <a href="#" class="btn btn-blue btn-effect">Join US</a>
+
+
+                                <a href="https://www.twitch.tv/olyavoodoo" class="btn btn-blue btn-effect">Join on Twitch</a>
                             </div>
                         </div>
 
@@ -241,9 +266,7 @@ element.innerText = data.stream.viewers;}
                         <div class="bg-img bg-img-2"></div>
                         <div class="slide-caption">
                             <div class="caption-content">
-                                <h2>BLUE Onepage HTML5 Template</h2>
-                                <span>Clean and Professional one page Template</span>
-                                <a href="#" class="btn btn-blue btn-effect">Join US</a>
+                                <a href="https://www.twitch.tv/olyavoodoo" class="btn btn-blue btn-effect">Join on Twitch</a>
                             </div>
                         </div>
 
@@ -254,9 +277,7 @@ element.innerText = data.stream.viewers;}
                         <div class="bg-img bg-img-3"></div>
                         <div class="slide-caption">
                             <div class="caption-content">
-                                <h2>BLUE Onepage HTML5 Template</h2>
-                                <span>Clean and Professional one page Template</span>
-                                <a href="#" class="btn btn-blue btn-effect">Join US</a>
+                                <a href="https://www.twitch.tv/olyavoodoo" class="btn btn-blue btn-effect">Join on Twitch</a>
                             </div>
                         </div>
 
@@ -321,9 +342,9 @@ element.innerText = data.stream.viewers;}
                             <h3>Welcome To Our Site</h3>
                             <div class="message-body">
                                 <img src="img/member-1.jpg" class="pull-left" alt="member">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+                                <p>Hellaw!<br> I'm Olya and streaming is one of my hobbies since 2015. Here you can see some games and IRL.<br> Contact for partnership: voo4work@gmail.com </p>
                             </div>
-                            <a href="#" class="btn btn-border btn-effect pull-right">Read More</a>
+                            
                         </div>
                     </div>
                 </div>
@@ -347,8 +368,9 @@ element.innerText = data.stream.viewers;}
                             <div class="service-icon">
                                 <i class="fa fa-users fa-3x"></i>
                             </div>
-                            <h3 >Total Followers</h3>
-                           <p id="totalvalue"><p>
+                            <h3>Total Followers</h3>
+                            <p id="totalvalue">
+                                <p>
                         </div>
                     </div>
 
@@ -358,7 +380,8 @@ element.innerText = data.stream.viewers;}
                                 <i class="fa fa-eye fa-3x"></i>
                             </div>
                             <h3>Total Views</h3>
-                          <p id="totalviews"><p>
+                            <p id="totalviews">
+                                <p>
                         </div>
                     </div>
 
@@ -368,7 +391,8 @@ element.innerText = data.stream.viewers;}
                                 <i class="fa fa-clock-o fa-3x"></i>
                             </div>
                             <h3>Live Viewers Count</h3>
-                            <p id="totalviewersnow"><p>
+                            <p id="totalviewersnow">
+                                <p>
                         </div>
                     </div>
 
@@ -653,7 +677,7 @@ element.innerText = data.stream.viewers;}
         </section>
         <!-- end Contact section -->
 
-  <!--      <section id="google-map">
+        <!--      <section id="google-map">
             <div id="map-canvas" class="wow animated fadeInUp"></div>
         </section>
 -->
