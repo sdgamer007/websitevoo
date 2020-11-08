@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
+<!--[if IE 7]>
+<html lang="en" class="no-js lt-ie9 lt-ie8">
+<![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="no-js lt-ie9">
+<![endif]-->
+<!--[if gt IE 8]>
+<!-->
 <html lang="en" class="no-js">
 <!--<![endif]-->
 
@@ -72,7 +77,6 @@
     }
 
     /* Popup box BEGIN */
-
 </style>
 
 <head>
@@ -174,7 +178,6 @@
 
 
         }
-
     </script>
 
 
@@ -206,7 +209,6 @@
                 })
             }, 3000);
         })();
-
     </script>
 
     <script>
@@ -274,10 +276,27 @@
                 })
             }, 5000);
         })();
-
     </script>
 
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.twitch.tv/kraken/channels/265669202/videos?limit=1',
+            headers: {
+                'Client-ID': 'd6ukblk8ko735mgz7g0hsuw5qzh8g0',
+                'Accept': 'application/vnd.twitchtv.v5+json'
+            },
+            success: function(data) {
+                var element = document.getElementById("lastviewonvideo");
 
+
+                $("#lastviewonvideo").html(data.videos[0].views);
+               // console.log(data.stream.viewers);
+
+
+        }
+        });
+    </script>
 
 </head>
 
@@ -429,7 +448,7 @@
                             <div class="message-body">
                                 <img src="img/member-1.jpg" class="pull-left" alt="member">
                                 <p>Hellaw!<br> I'm Bebo,Lebanese and 26 years old. ♥(ꈍᴗꈍ)♥.I am variety streamer and feel free ro suggest games.<br> Business E-Mail: BeboishTV@gmail.com
-(Business inquires ONLY)</p>
+                                    (Business inquires ONLY)</p>
                             </div>
 
                         </div>
@@ -490,8 +509,8 @@
                                 <i class="fa fa-heart fa-3x"></i>
                             </div>
 
-                            <h3>Web Security</h3>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+                            <h3>Last Video Views</h3>
+                            <p id="lastviewonvideo"></p>
                         </div>
                     </div>
 
@@ -826,6 +845,4 @@
     <script src="js/wow.min.js"></script>
     <!-- Custom Functions -->
     <script src="js/main.js"></script>
-</body>
-
-</html>
+</body></html>
